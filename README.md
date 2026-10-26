@@ -2,8 +2,8 @@
 
 Java programs that draw a right-angle triangle of asterisks (`*`).
 
-- **`Triangle.java`** (Question 1): prints a fixed 3x4 triangle in as few lines as possible.
-- **`TriangleBonus.java`** (Bonus): reads any M x N from the user and prints that triangle.
+- **`triangle_3x4.java`** (Question 1): prints a fixed 3x4 triangle in as few lines as possible.
+- **`triangle_mxn.java`** (Bonus): reads any M x N from the user and prints that triangle.
 
 ## How to Run
 
