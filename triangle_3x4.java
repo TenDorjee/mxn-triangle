@@ -130,7 +130,7 @@ e.g.
 
 public class Triangle {
     public static void main(String[] args) {
-        for (int i = 1, h = 35, w = 32; i <= h; i++) System.out.println("*".repeat((2 * i * w + h) / (2 * h)));
+        for (int i = 1, h = 3, w = 4; i <= h; i++) System.out.println("*".repeat((2 * i * w + h) / (2 * h)));
     }
 }
 
