@@ -7,13 +7,12 @@ Java programs that draw a right-angle triangle of asterisks (`*`).
 
 ## How to Run
 
-Requires Java 11+ (for `String.repeat`).
+*Requires Java 11+ (for `String.repeat` and single-file source-code execution).*
 
 ```bash
-javac Triangle.java && java Triangle
-javac TriangleBonus.java && java TriangleBonus
+java triangle_3x4.java
+java triangle_mxn.java
 ```
-
 ## Assumptions
 
 1. **3x4 means height x width:** 3 rows tall and 4 stars wide at the base.
@@ -120,6 +119,6 @@ Height (M):
   *****
   ******
   ```
-  The shape is still a valid triangle, because no row is ever narrower than the one above it.
+  The shape is still a valid triangle, because no row is ever narrower than the one above it width(row + 1) >= width(row).
 - **Very narrow triangles can start with blank rows.** When `N < M / 2`, the first row or rows round to 0 stars. For example, 10x3 prints an empty first line.
 - **Ties (x.5) round up.** This is a deliberate choice of the integer formula.
