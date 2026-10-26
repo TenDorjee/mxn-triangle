@@ -75,14 +75,6 @@ Height (M): abc
 Error: must be an integer.
 Height (M): -3
 Error: must be a positive integer.
-Height (M): 4
-Width (N): 8
-
-Result for 4x8:
-**
-****
-******
-********
 ```
 
 ## Limitations
