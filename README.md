@@ -54,19 +54,19 @@ java triangle_mxn.java
 **Q2 (Bonus), valid input:**
 ```
 Height (M): 10
-Width (N): 6
+Width (N): 10
 
-Result for 10x6:
+Result for 10x10:
 *
-*
-**
 **
 ***
 ****
-****
-*****
 *****
 ******
+*******
+********
+*********
+**********
 ```
 
 **Q2 (Bonus), invalid input:**
