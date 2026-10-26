@@ -1,5 +1,6 @@
 # Asterisk Triangle — OT Job 54060 Technical Assessment
 *Note: This README was created by AI by prompting it to convert my problem-solving processes seen in the file comments into a README.*
+
 Java programs that draw a right-angle triangle of asterisks (`*`) for a given height × width.
 
 | File | Task |
