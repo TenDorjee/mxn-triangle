@@ -1,125 +1,91 @@
 # Asterisk Triangle — OT Job 54060 Technical Assessment
 *Note: This README was created by AI by prompting it to convert my problem-solving processes seen in the file comments into a README.*
+Java programs that draw a right-angle triangle of asterisks (`*`) for a given height × width.
 
-Java programs that draw a right-angle triangle of asterisks (`*`).
-
-- **`triangle_3x4.java`** (Question 1): prints a fixed 3x4 triangle in as few lines as possible.
-- **`triangle_mxn.java`** (Bonus): reads any M x N from the user and prints that triangle.
+| File | Task |
+|---|---|
+| `triangle_3x4.java` | **Q1:** Display a 3×4 triangle in the fewest lines of code |
+| `triangle_mxn.java` | **Q2 (Bonus):** Display any M×N triangle from user input |
 
 ## How to Run
 
-*Requires Java 11+ (for `String.repeat` and single-file source-code execution).*
+Requires **Java 11+** (uses `String.repeat`). Run each file directly with the single-file source launcher:
 
 ```bash
 java triangle_3x4.java
 java triangle_mxn.java
 ```
-## Assumptions
-
-1. **3x4 means height x width:** 3 rows tall and 4 stars wide at the base.
-2. **It is a right-angle triangle**, because the task set no other constraints.
-3. **The top row has at least one star (for 3x4), and each row is at least as wide as the one above.** This ensures the shape converges to a single point.
 
 ## Problem-Solving Process
 
-**1. I tried width x height first (3 wide, 4 tall).**
+1. **Interpreting "3×4".** I sketched several candidate shapes:
+   - *Width × height (4 rows):* produced either an awkward leading `*` or an uneven slope.
+   - *Height × width, `**` / `***` / `****`:* a 2-star top row gives the shape a flat top (4 vertices), so it is not a triangle.
+   - *Height × width, `*` / `***` / `****`:* has a single-point top, a 4-wide base, and the cleanest slope. **Chosen.**
+2. **Finding the pattern.** The chosen shape has rows of 1, 3, 4 stars. That is row `i` scaled by `width / height`, rounded:
 
-```
-*        *
-*        **
-**       **
-***      ***
-```
+   | Row (i) | i × w / h | Rounded |
+   |---|---|---|
+   | 1 | 1.33 | 1 |
+   | 2 | 2.67 | 3 |
+   | 3 | 4.00 | 4 |
 
-Both options looked awkward. One has a doubled top and the other has an uneven slope.
+3. **Generalizing.** For any h × w: `stars(i) = round(i × w / h)`, for `i = 1..h`. The last row is always exactly `w`.
+4. **Implementing.** Version 1 used `Math.round` with a nested loop. Version 2 (AI-assisted) reduces it to one loop line using:
+   - `"*".repeat(n)` to replace the inner loop
+   - the integer-only round-half-up formula `(2·i·w + h) / (2·h)`, which matches `Math.round` exactly, including `.5` cases, without floating point or casts
+5. **Bonus (AI-assisted from the Q1 logic).** I wrapped the formula in `printMxN(m, n)` and added a validated input loop with clear usage and error prompts.
 
-**2. I switched to height x width (3 tall, 4 wide).**
+## Assumptions
 
-```
-**       *
-***      ***
-****     ****
-```
-
-The left option has a flat top with two stars, so it has four corners and is not a triangle. The right option has a single-star top and a clean slope, so I chose it.
-
-**3. I found the pattern.** The row lengths are 1, 3, 4. Each row's width is the line from the top to the base, sampled at that row and rounded to the nearest whole star:
-
-```
-stars(i) = round(i × w / h),   i = 1..h
-```
-
-| Row (i) | i × w / h | Rounded |
-|---------|-----------|---------|
-| 1       | 1.33      | 1       |
-| 2       | 2.67      | 3       |
-| 3       | 4.00      | 4       |
-
-The last row always equals `w`, because `h × w / h = w`. Using floor (1, 2, 4) or ceiling (2, 3, 4) would not reproduce the chosen shape, so I used rounding.
-
-**4. I implemented it.**
-
-- **Version 1:** nested loops with `Math.round((double) (i * w) / h)`. This version is readable but not minimal.
-- **Version 2 (AI-assisted optimization):** a single-line loop using `String.repeat`. It does the rounding with integer arithmetic only:
-  ```
-  round(i × w / h)  ==  (2·i·w + h) / (2·h)   (integer division, rounds half up)
-  ```
-  This avoids floating point and casting.
-
-**5. Bonus.** I reused the same formula in `printMxN(m, n)`. The interactive prompts and input validation were generated with AI, at my direction.
+1. **"3×4" means height × width:** 3 rows tall, 4 stars wide at the base.
+2. **Right-angle triangle**, left-aligned, widening from top to bottom, since the task set no constraints on shape.
+3. **Fractional row widths round to the nearest whole number**, with `.5` rounding up.
 
 ## Example Input / Output
 
-**Question 1 (3x4)**
-
+**Q1 (3×4):**
 ```
 *
 ***
 ****
 ```
 
-**Bonus**
-
+**Q2 (Bonus), valid input:**
 ```
---- Bonus Task: Interactive M x N Triangle ---
-Usage: Enter height and width as positive integers.
-...
-Height (M): 5
-Width (N): 8
+Height (M): 10
+Width (N): 6
 
-Result for 5x8:
+Result for 10x6:
+*
+*
+**
 **
 ***
+****
+****
 *****
+*****
+******
+```
+
+**Q2 (Bonus), invalid input:**
+```
+Height (M): abc
+Error: must be an integer.
+Height (M): -3
+Error: must be a positive integer.
+Height (M): 4
+Width (N): 8
+
+Result for 4x8:
+**
+****
 ******
 ********
 ```
 
-Invalid input is rejected and the user is re-prompted:
-
-```
-Height (M): abc
-Error: must be an integer.
-Height (M): -2
-Error: must be a positive integer.
-Height (M):
-```
-
 ## Limitations
 
-- **Large height-to-width gaps distort the shape.** A terminal is a grid of characters, so very tall or very wide triangles show repeated rows or skipped widths. For example, 10x6 gives:
-  ```
-  *
-  *
-  **
-  **
-  ***
-  ****
-  ****
-  *****
-  *****
-  ******
-  ```
-  The shape is still a valid triangle, because no row is ever narrower than the one above it width(row + 1) >= width(row).
-- **Very narrow triangles can start with blank rows.** When `N < M / 2`, the first row or rows round to 0 stars. For example, 10x3 prints an empty first line.
-- **Ties (x.5) round up.** This is a deliberate choice of the integer formula.
+- **Distortion at extreme ratios.** Terminal text is a coarse grid, so very tall or very wide triangles look stepped or flattened. For example, 10×6 repeats row widths, and 3×20 jumps 7 → 13 → 20.
+- **Integer overflow** is possible if `2·i·w` exceeds `int` range (around 2.1 billion). This is not realistic for console output.
